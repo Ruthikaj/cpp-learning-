@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+
+string read(int n, vector < int > book, int target) {
+  // Write your code here.
+
+  unordered_map < int, int > m;
+
+  for (int i = 0; i < book.size(); i++) {
+
+    int currentElement = book[i];
+    int otherElement = target - currentElement;
+
+    // if the otherElement is found in the map
+    if (m.find(otherElement) != m.end()) {
+
+      return "YES";
+    }
+    // else if the otherElement is not found in the map
+    else {
+
+      m[currentElement] = i;
+    }
+  }
+
+  // if the numbers dont exist
+  return "NO";
+
+}
