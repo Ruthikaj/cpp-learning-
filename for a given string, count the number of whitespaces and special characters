@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+void countWhitespaceAndSpecial(const string& input, int& whitespaceCount, int& specialCount) {
+    whitespaceCount = 0; // Initialize whitespace count
+    specialCount = 0;    // Initialize special character count
+
+    for (char ch : input) { // Iterate through each character in the string
+        if (isspace(ch)) {
+            // Check if the character is a whitespace
+            ++whitespaceCount;
+        } else if (!isalnum(ch)) {
+            // Check if the character is not alphanumeric (special character)
+            ++specialCount;
+        }
+    }
+}
+
+int main() {
+    string input;
+    cout << "Enter a string: ";
+    getline(cin, input); // Read the entire input string, including spaces
+
+    int whitespaceCount, specialCount;
+    countWhitespaceAndSpecial(input, whitespaceCount, specialCount);
+
+    cout << "Number of whitespaces: " << whitespaceCount << endl;
+    cout << "Number of special characters: " << specialCount << endl;
+
+    return 0;
+}
+
+
+Execution:
+Characters:
+
+'H', 'e', 'l', 'l', 'o': Alphanumeric → No increment.
+',': Special character → Increment specialCount.
+' ': Whitespace → Increment whitespaceCount.
+'W', 'o', 'r', 'l', 'd': Alphanumeric → No increment.
+'!': Special character → Increment specialCount.
+' ': Whitespace → Increment whitespaceCount.
+'$', '#': Special characters → Increment specialCount twice.
+'2', '0', '2', '4': Alphanumeric → No increment.
+Results:
+
+whitespaceCount = 3 (' ', ' ', ' ')
+specialCount = 4 (',', '!', '$', '#')
