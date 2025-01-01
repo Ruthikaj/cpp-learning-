@@ -1,0 +1,87 @@
+#include <bits/stdc++.h> 
+using namespace std;
+
+// Class to encapsulate the solution
+class Solution {
+  
+  // Helper function for backtracking
+  void findPathHelper(
+      int i, int j,                     // Current cell coordinates
+      vector<vector<int>> &a,           // The maze (input grid)
+      int n,                            // Size of the maze (n x n)
+      vector<string> &ans,              // Stores all valid paths
+      string move,                      // Current path string
+      vector<vector<int>> &vis          // Visited matrix
+    ) {
+    // Base Case: If we've reached the destination (n-1, n-1)
+    if (i == n - 1 && j == n - 1) {
+      ans.push_back(move);              // Add the current path to results
+      return;
+    }
+
+    // Downward movement (i+1, j)
+    if (i + 1 < n && !vis[i + 1][j] && a[i + 1][j] == 1) {
+      vis[i][j] = 1;                    // Mark the current cell as visited
+      findPathHelper(i + 1, j, a, n, ans, move + 'D', vis); // Explore downwards
+      vis[i][j] = 0;                    // Backtrack (unmark the cell)
+    }
+
+    // Left movement (i, j-1)
+    if (j - 1 >= 0 && !vis[i][j - 1] && a[i][j - 1] == 1) {
+      vis[i][j] = 1;                    // Mark the current cell as visited
+      findPathHelper(i, j - 1, a, n, ans, move + 'L', vis); // Explore leftwards
+      vis[i][j] = 0;                    // Backtrack
+    }
+
+    // Right movement (i, j+1)
+    if (j + 1 < n && !vis[i][j + 1] && a[i][j + 1] == 1) {
+      vis[i][j] = 1;                    // Mark the current cell as visited
+      findPathHelper(i, j + 1, a, n, ans, move + 'R', vis); // Explore rightwards
+      vis[i][j] = 0;                    // Backtrack
+    }
+
+    // Upward movement (i-1, j)
+    if (i - 1 >= 0 && !vis[i - 1][j] && a[i - 1][j] == 1) {
+      vis[i][j] = 1;                    // Mark the current cell as visited
+      findPathHelper(i - 1, j, a, n, ans, move + 'U', vis); // Explore upwards
+      vis[i][j] = 0;                    // Backtrack
+    }
+  }
+
+  public:
+    // Function to find all paths
+    vector<string> findPath(vector<vector<int>> &m, int n) {
+      vector<string> ans;               // To store all valid paths
+      vector<vector<int>> vis(n, vector<int>(n, 0)); // Visited matrix initialized to 0
+
+      // Start the search only if the starting cell is valid
+      if (m[0][0] == 1) 
+        findPathHelper(0, 0, m, n, ans, "", vis);
+      return ans;
+    }
+};
+
+int main() {
+  int n = 4; // Size of the maze
+
+  // Input maze
+  vector<vector<int>> m = {
+    {1, 0, 0, 0},
+    {1, 1, 0, 1},
+    {1, 1, 0, 0},
+    {0, 1, 1, 1}
+  };
+
+  Solution obj;
+  vector<string> result = obj.findPath(m, n); // Get all paths
+
+  // Output the results
+  if (result.size() == 0)
+    cout << -1; // No paths found
+  else
+    for (int i = 0; i < result.size(); i++) 
+      cout << result[i] << " ";
+  cout << endl;
+
+  return 0;
+}
